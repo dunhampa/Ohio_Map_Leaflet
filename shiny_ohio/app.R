@@ -23,7 +23,7 @@ server <- function(input, output) {
   
   
   
- myMap <-function(){
+  myMap <-function(){
     print("here")
     states <- readOGR("county/cb_2015_us_county_20m.shp",
                       layer = "cb_2015_us_county_20m", GDAL1_integer64_policy = TRUE)
@@ -39,6 +39,7 @@ server <- function(input, output) {
     map<-leaflet(neStates) %>%
       addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
                   opacity = 1.0, fillOpacity = 0.5,
+                  layerId = ~NAME,
                   fillColor = ~colorQuantile("Reds", AWATER)(AWATER),
                   highlightOptions = highlightOptions(color = "white", weight = 2,
                                                       bringToFront = TRUE),
@@ -47,12 +48,17 @@ server <- function(input, output) {
     map
   }
   
- output$myMap <- renderLeaflet({
-  #print(str(myMap()))
-  myMap()
- })
+  output$myMap <- renderLeaflet({
+    #print(str(myMap()))
+    myMap()
+  })
   
-
+  
+  observeEvent(input$myMap_shape_click, { # update the location selectInput on map clicks
+    p <- input$myMap_shape_click
+    print(p)
+  }) 
+  
   
 }
 
