@@ -79,7 +79,7 @@ county<-function(){
                 fillColor = ~colorQuantile("Reds", AWATER)(AWATER),
                 highlightOptions = highlightOptions(color = "white", weight = 2,
                                                     bringToFront = TRUE),
-                popup="Holler")
+                popup=~NAME)
 
   
 }
